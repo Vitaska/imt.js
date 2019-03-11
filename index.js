@@ -1,17 +1,21 @@
-// var a = 'Hello world';
-// console.log(a);
-
-// var fs = require('fs');
-// console.log(fs);
-
-// Read sync
-// var fs = require('fs');
-// var data = fs.readFileSync('data.txt', 'utf-8');
-// console.log(data);
-
 var fs = require('fs');
 
+// Read file
 fs.readFile('data.txt', 'utf-8', function(err, data) {
-    if (err) throw err;
-    console.log(data);
-  });
+     if (err) throw err;
+     console.log(data);
+   });
+
+
+//  Write file
+//  fs.writeFile ('data.txt', 'Home task 12!', function(err, data) {
+//    if (err) throw err;
+//    console.log(data);
+//  });
+
+// Write file with new col
+fs.appendFile ('data.txt', '\nHome task 12!', function(err, data) {
+  if (err) throw err;
+  console.log(data);
+});
+
