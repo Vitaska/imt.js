@@ -1,5 +1,3 @@
-First home work
-
 var http = require('http');
 var port = 3000;
 var fs = require('fs');
