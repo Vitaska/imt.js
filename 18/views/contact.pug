@@ -1,0 +1,14 @@
+extends layout
+block content
+    h1 Контакты
+
+    form(method = 'post')
+        fieldset.form-group
+            label(for = 'name') Имя:
+            input.form-control(name = 'name' tel = 'tel', type = 'text', placeholder = 'Введите ваше имя', value = contact.name)
+            label(for = 'tel') Телефон:
+            input.form-control(name = 'name' tel = 'tel', type = 'text', placeholder = 'Введите имя курса', value = contact.tel)
+            label(for = 'mail') E-mail:
+            input.form-control(name = 'name' tel = 'tel', type = 'text', placeholder = 'Введите имя курса', value = contact.mail)
+        button.btn.btn-primary(type = 'submit') Отправить
+        a.btn.btn-default(href = '/api/contact') Отмена
