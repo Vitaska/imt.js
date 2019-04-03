@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Demo chat on es5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha304-PsH8R72JQ35OdhVi3uxftmaW6Vc51MKb0q5p2rRUpvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <script>
+        var socket = io();
+        // 1-логика: добавление пользователя и проверка на существование
+        function setUserName() {
+            socket.emit('setUserName', document.getElementById('name').value);
+        }
+        var user;
+        socket.on('userExists', function(data) {
+            document.getElementById('error').innerHTML = data;
+        });
+
+        socket.on('userSet', function(data) {
+            user = data.userName;
+            document.body.innerHTML = '\
+                <div class="container">\
+                <div class="row"> \
+                    <div class="col-lg-6 offset-lg-3"> \
+                        <div class="form-group"> \
+                            <input type="Text" class="form-control" id="message" placeholder="Пиши здесь..."> \
+                            <button type="button" class="btn btn-primary" name="button" onclick="sendMessage()">Отправить</button> \
+                            <div id="message-container"></div> \
+                        </div> \
+                    </div> \
+                </div> \
+                </div>';
+        });
+        // 2-логика: Добавление сообщений
+        function sendMessage() {
+            var messageData = document.getElementById('message').value;
+            if (messageData) {
+                socket.emit('message', {user: user, message: messageData});
+            }
+
+            document.getElementById('message').value = '';
+        }
+        socket.on('newMessage', function(data) {
+            if (user) {
+                document.getElementById('message-container').innerHTML = '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+            }
+        })
+    </script>
+    <div class='container'>
+            <div class='row'>
+                <div class='col-lg-6 offset-lg-3'>
+                    <div id='error'></div>
+                    <div class='form-group'>
+                        <label for="name">Давай общаться!</label>
+                        <input type='Text' class='form-control' id='name' placeholder='введи свое имя незнакомец!'>
+                        <button type='submit' class='btn btn-primary' name='button' onclick='setUserName()'>Вперед!</button>
+                        <div id='message-container'></div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</body>
+</html>
